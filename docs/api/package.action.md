@@ -1,0 +1,4 @@
+﻿# action
+
+```{autofunction} package.action
+```

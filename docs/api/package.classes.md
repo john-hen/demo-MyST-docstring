@@ -1,0 +1,4 @@
+﻿# classes
+
+```{automodule} package.classes
+```
