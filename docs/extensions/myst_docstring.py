@@ -1,4 +1,4 @@
-﻿"""MyST-compatible drop-in replacement for the Autodoc extension."""
+﻿"""MyST-compatible drop-in replacement for Sphinx's Autodoc extension."""
 __version__ = '0.1.0'
 
 # This extension essentially overrides all content creation done by
@@ -7,14 +7,15 @@ __version__ = '0.1.0'
 # therefore prone to breakage when there are upstream changes.
 #
 # Namely, the overridden methods are `add_line`, `add_directive_header`,
-# and `generate` of Autodoc's `Documenter` class as well as of all
+# and `generate` of Autodoc's `Documenter` class, as well as of all
 # classes derived from it, implementing the various directives for
 # modules, functions, etc. Code comments here only pertain to changes
 # made to the original code for reST, the original comments from the
-# Autodoc source were removed. Type hints were also removed, but could
-# easily be put back in. String interpolation was changed to f-strings,
-# and some variable names were shortened to keep line lengths under 80
-# characters.
+# Autodoc source were removed so as to not be a distraction. Type hints
+# were also removed, but could easily be put back in. String interpolation
+# was changed to f-strings. We use our own logger name, but could have
+# kept using Autodoc's. Some variable names were shortened, like `source`
+# instead of `sourcename`, to keep lines under 80 characters.
 
 
 import sphinx
@@ -90,13 +91,13 @@ class Documenter(autodoc.Documenter):
         """
         Generates the Markdown content replacing an Autodoc directive.
 
-        We don't call the corresponding method from the super class,
+        We don't call the corresponding method from the parent class,
         but rather rewrite it with Markdown output. This is done to
         avoid parsing the generated reStructuredText, which is possible,
         but might be error-prone.
         """
 
-        # Until noted otherwise, code is the same as in parent class.
+        # Until noted otherwise, code is the same as in the parent class.
         # See source code comments there for clarification.
 
         if not self.parse_name():
@@ -115,7 +116,7 @@ class Documenter(autodoc.Documenter):
             self.analyzer = ModuleAnalyzer.for_module(self.real_modname)
             self.analyzer.find_attr_docs()
         except PycodeError as exc:
-            logger.debug('[autodoc] module analyzer failed: %s', exc)
+            logger.debug(f'[myst-docstring] module analyzer failed: {exc}')
             self.analyzer = None
             if hasattr(self.module, '__file__') and self.module.__file__:
                 self.directive.record_dependencies.add(self.module.__file__)
@@ -133,7 +134,7 @@ class Documenter(autodoc.Documenter):
         if ismock(self.object) and not docstrings:
             logger.warning(
                 sphinx.locale.__(f'A mocked object is detected: {self.name}'),
-                type='autodoc')
+                type='myst-docstring')
         if check_module:
             if not self.check_module():
                 return
@@ -146,7 +147,7 @@ class Documenter(autodoc.Documenter):
             logger.warning(
                 sphinx.locale.__('Error while formatting signature for '
                                  f'{self.fullname}: {exc}'),
-                type='autodoc')
+                type='myst-docstring')
             return
 
         # From here on, we make changes to accommodate the Markdown syntax.
@@ -156,7 +157,7 @@ class Documenter(autodoc.Documenter):
         self.add_line('', source)
 
         # Some directives don't have body content, namely modules. Then
-        # there is nothing to indent in reST and the `content_ident`
+        # there is nothing to indent in reST and the `content_indent`
         # attribute of the corresponding Autodoc class will be an empty
         # string. In Markdown, we have to close these directives right
         # after the signature. The actual content, think members of a
@@ -341,7 +342,8 @@ class PropertyDocumenter(Documenter, autodoc.PropertyDocumenter):
             except TypeError as exc:
                 logger.warning(
                     sphinx.locale.__('Failed to get a function signature for '
-                                     f'{self.fullname}:{exc}'))
+                                     f'{self.fullname}:{exc}'),
+                    type='myst-docstring')
                 return None
             except ValueError:
                 return None

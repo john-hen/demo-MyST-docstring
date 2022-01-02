@@ -14,9 +14,10 @@ side bar on the left. Readers can go there to understand how the library
 is to be used in application code. That is, it documents the *public*
 API. Not every doc-string defined in `package` needs to show up there,
 only the ones that are important. So we kick things off with a general
-summary of the top-level objects, courtesy of a modified version of
-Sphinx's [Autosummary] extension, which links to in-depth API documentation
-provided by the a modified [Autodoc] extension.
+summary of the top-level objects, courtesy of the MyST-summary extension
+(a modified version of Sphinx's [Autosummary]) extension, which links to
+in-depth API documentation provided by MyST-docstring (derived from
+[Autodoc]).
 
 We can then link to objects from the API documentation, such as
 {any}`Class1` or {any}`action <package.action>`. The syntax is
@@ -26,11 +27,11 @@ of referring to the Sphinx role `any`, which then basically looks in
 *any* place to resolve the reference. [Alternatively][myst_autodoc], we
 can write ``[`Class1`](Class1)`` and ``[`action`](Class2.action)`` to
 create links to [`Class1`](Class1) and [`action`](Class2.action) with
-a more Markdown-y syntax.
+a more Markdownian syntax.
 
-Some people like to document the API within the hand-written general
-documentation as they go along. So instead of just referring to
-{any}`Class1`, they pull in its doc-string somewhere in the text:
+Some people like to document the API within the general documentation
+as they go along. So instead of just referring to {any}`Class1`, they
+pull in its doc-string somewhere in the text:
 
 ```{autoclass} package.classes.Class1
     :noindex:
@@ -50,11 +51,11 @@ problem with that.
 
 This is a section inside the Overview chapter. We have marked it as
 a possible link target by putting `(first-steps)=` right above the
-section header. Though MyST would also [generate anchors][autoanchors]
+section header. MyST would also [generate anchors][autoanchors]
 automatically, for sections up to a given level, if we specify e.g.
 `myst_heading_anchors = 2` in `conf.py`.
 
-Maybe it's time for a code example:
+Here is a code example:
 ```python
 from package.classes import Class1
 

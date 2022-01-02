@@ -1,11 +1,11 @@
-﻿from pathlib import Path
+﻿"""Cleans up artifacts of local documentation build."""
+
+from pathlib import Path
 from shutil import rmtree
 
 root = Path(__file__).parent
-
 folders = [root/'HTML']
 files   = [root/'autodoc.txt']
-
 folder_names = ['__pycache__']
 for folder_name in folder_names:
     for folder in root.rglob(folder_name):

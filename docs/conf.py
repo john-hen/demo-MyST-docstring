@@ -40,7 +40,9 @@ autodoc_default_options = {
 autosummary_generate = False           # Stub files are created by hand.
 
 # Rendering options
-html_theme          = 'furo'           # custom theme with light and dark mode
 html_show_copyright = False            # Show copyright notice in footer?
 html_show_sphinx    = True             # Show Sphinx blurb in footer?
 html_copy_source    = True             # Copy documentation source files?
+html_theme          = 'furo'           # custom theme with light and dark mode
+pygments_style      = 'friendly'       # syntax highlight style in light mode
+pygments_dark_style = 'stata-dark'     # syntax highlight style in dark mode

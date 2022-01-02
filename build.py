@@ -1,3 +1,7 @@
-﻿from subprocess import run
+﻿"""Builds the documentation locally."""
 
-process = run(['sphinx-build', 'docs', 'HTML'])
+from subprocess import run
+from pathlib import Path
+
+here = Path(__file__).parent
+process = run(['sphinx-build', 'docs', 'HTML'], cwd=here)

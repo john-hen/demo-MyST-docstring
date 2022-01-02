@@ -1,6 +1,11 @@
-"""MyST-compatible drop-in replacement for the Autosummary extension."""
+"""MyST-compatible drop-in replacement for Sphinx's Autosummary extension."""
 __version__ = '0.1.0'
 
+# This extension only overrides the Autosummary method that creates the
+# summary table. The changes relative to the original code are minimal.
+# Though it is possible some reST-specific content generation was
+# overlooked elsewhere in Autosummary's code base. The stub generation
+# was ignored. We would have to create .md files instead of .rst.
 
 import sphinx
 from sphinx.ext import autosummary
