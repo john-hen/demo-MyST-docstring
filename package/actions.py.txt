@@ -1,3 +1,0 @@
-Note that these links produce warnings and don't work, even though they
-appear just the same in the [Overview](overview.md) and everything's
-fine there: [`Class1`](Class1) and [`action`](Class2.action).
