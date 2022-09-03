@@ -38,6 +38,7 @@ autodoc_default_options = {
     'member-order': 'bysource',        # Order members as in source file.
 }
 autosummary_generate = False           # Stub files are created by hand.
+add_module_names = False               # Don't prefix members with module name.
 
 # Rendering options
 html_show_copyright = False            # Show copyright notice in footer?
