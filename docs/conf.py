@@ -2,7 +2,6 @@
 
 from pathlib import Path
 import sys
-import logging
 
 # Module search path
 here = Path(__file__).absolute().parent
